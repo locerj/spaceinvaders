@@ -15,7 +15,7 @@ const player = new Player(canvas.width, canvas.height);
 const grid = new Grid(3, 6);
 
 const playerProjectiles = [];
-const invaderProjectiles = [];
+const invadersProjectiles = [];
 
 
 
@@ -29,7 +29,7 @@ const keys = {
 };
 
 const drawProjectiles = () => {
-    const projectiles = [...playerProjectiles, ...invaderProjectiles];
+    const projectiles = [...playerProjectiles, ...invadersProjectiles];
     projectiles.forEach((projectile) => {
         projectile.draw(ctx);
         projectile.update();
@@ -114,12 +114,12 @@ addEventListener("keyup", (event) => {
     }
 });
 
-// setInterval(() => {
-//     const invader = grid.getRancomInvader();
+setInterval(() => {
+    const invader = grid.getRandomInvader();
 
-//     if (invader){
-//         invader.shoot(invaderProjectiles);
-//     }
-// }, 1000)
+    if (invader){
+        invader.shoot(invadersProjectiles);
+    }
+}, 1000);
 
 gameLoop();
