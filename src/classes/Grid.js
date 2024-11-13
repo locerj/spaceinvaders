@@ -18,7 +18,7 @@ class Grid {
                 const invader = new Invader(
                     {
                         x: col * 60 + 20,
-                        y: row * 47 + 20,
+                        y: row * 47 + 120,
                     },
                     this.invadersVelocity
                 );

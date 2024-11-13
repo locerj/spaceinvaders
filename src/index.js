@@ -1,10 +1,19 @@
 import Grid from "./classes/Grid.js";
-import Invader from "./classes/Invader.js";
 import Obstacle from "./classes/Obstacle.js";
 import Particle from "./classes/Particle.js";
 import Player from "./classes/Player.js";
-import Projectile from "./classes/Projectile.js";
 import { GameState } from "./utils/constants.js";
+
+const startScreen = document.querySelector(".start-screen");
+const gameOverScreen = document.querySelector(".game-over");
+const scoreUi = document.querySelector(".score-ui");
+const scoreElement = scoreUi.querySelector(".score > span");
+const levelElement = scoreUi.querySelector(".level > span");
+const highElement = scoreUi.querySelector(".high > span");
+const buttonPlay = document.querySelector(".button-play");
+const buttonRestart = document.querySelector(".button-restart");
+
+gameOverScreen.remove();
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -14,7 +23,7 @@ canvas.height = innerHeight;
 
 ctx.imageSmoothingEnabled = false;
 
-let currentState = GameState.PLAYING;
+let currentState = GameState.START;
 
 const player = new Player(canvas.width, canvas.height);
 const grid = new Grid(3, 6);
@@ -159,6 +168,7 @@ const gameOver = () => {
     createExplosion({ x: player.position.x + player.width / 2, y: player.position.y + player.height / 2 }, 10, "red");
     currentState = GameState.GAME_OVER;
     player.alive = false;
+    document.body.append(gameOverScreen);
 }
 
 const gameLoop = () => {
@@ -250,12 +260,31 @@ addEventListener("keyup", (event) => {
     }
 });
 
-setInterval(() => {
-    const invader = grid.getRandomInvader();
 
-    if (invader) {
-        invader.shoot(invadersProjectiles);
-    }
-}, 1000);
+
+buttonPlay.addEventListener("click", () => {
+    startScreen.remove();
+    scoreUi.style.display = "block";
+    currentState = GameState.PLAYING;
+
+    setInterval(() => {
+        const invader = grid.getRandomInvader();
+    
+        if (invader) {
+            invader.shoot(invadersProjectiles);
+        }
+    }, 1000);
+});
+
+buttonRestart.addEventListener("click", () => {
+    currentState = GameState.PLAYING;
+    player.alive = true;
+    grid.invaders.length = 0;
+    grid.invadersVelocity = 1;
+
+    invadersProjectiles.length = 0;
+
+    gameOverScreen.remove();
+});
 
 gameLoop();
