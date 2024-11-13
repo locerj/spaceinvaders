@@ -4,8 +4,8 @@ import Projectile from "./Projectile.js";
 class Invader {
     constructor(position, velocity) {
         this.position = position;
-        this.width = 50;
-        this.height = 37;
+        this.width = 50 * 0.8;
+        this.height = 37 * 0.8;
         this.velocity = velocity;
 
         this.image = this.getImage(PATH_INVADER_IMAGE);
